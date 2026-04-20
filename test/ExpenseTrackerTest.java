@@ -173,4 +173,60 @@ public class ExpenseTrackerTest {
       assertEquals("travel", t.getCategory());
       assertEquals("15-05-2026 12:00", t.getTimestamp());
   }
+  
+  @Test
+  public void testDataVisualizationNoTransactions() {
+      // Pre-conditions
+      assertEquals(0, model.getTransactions().size());
+      
+      // Thread to dismiss the JOptionPane automatically so it doesn't hang the automated test
+      new Thread(() -> {
+          try {
+              Thread.sleep(500);
+              java.awt.Window[] windows = java.awt.Window.getWindows();
+              for (java.awt.Window window : windows) {
+                  if (window instanceof javax.swing.JDialog) {
+                      window.dispose();
+                  }
+              }
+          } catch (Exception e) {}
+      }).start();
+
+      // Call unit under test
+      view.AnalysisPanelView analysisPanelView = controller.getView().getAnalysisPanelView();
+      analysisPanelView.getGenerateButton().doClick();
+      
+      // Post-conditions
+      assertEquals(0, model.getTransactions().size());
+  }
+
+  @Test
+  public void testDataVisualizationWithImportedTransactions() throws java.io.IOException {
+      // Pre-conditions
+      assertEquals(0, model.getTransactions().size());
+      
+      // Write a temporary CSV file
+      java.io.File tempCsv = new java.io.File("test_import.csv");
+      try (java.io.FileWriter writer = new java.io.FileWriter(tempCsv)) {
+          writer.write("Amount,Category,Timestamp\n");
+          writer.write("50.0,food,18-04-2026 12:00\n");
+          writer.write("120.0,travel,19-04-2026 15:30\n");
+      }
+      
+      // Call unit under test
+      model.CSVImporter importer = new model.CSVImporter();
+      java.util.List<Transaction> imported = importer.importTransactions("test_import.csv");
+      for (Transaction t : imported) {
+          model.addTransaction(t);
+      }
+      
+      view.AnalysisPanelView analysisPanelView = controller.getView().getAnalysisPanelView();
+      analysisPanelView.getGenerateButton().doClick();
+      
+      // Post-conditions
+      assertEquals(2, model.getTransactions().size());
+      
+      // Clean up local temp file
+      tempCsv.delete();
+  }
 }
