@@ -68,6 +68,9 @@ The Expense Tracker application applies the MVC architecture pattern as follows:
 * **Input Validation:**
   Validates adding and exporting functionalities. The transaction amount must be greater than 0 and less than or equal to 1000. The category must be one of: food, travel, bills, entertainment, or other. The exported filename must be valid and end with `.csv`.
 
+* **Data Visualization (Analysis):**
+  A new `Analysis` tab that aggregates transaction data over a user-assigned time window (parsed as `dd-MM-yyyy HH:mm`) and projects it onto different chart mediums leveraging the **Strategy Design Pattern**. Users are alerted if the transaction lists are fully empty or no matching parameters are found in the query. Under the hood, this integrates XChart rendering panels to create dynamically generated Pie Charts, Bar Charts, and Line Charts.
+
 * **Delete Transaction:**
   Select a valid transaction from the list.
   In the 'Edit' menu, select the 'Delete' menu item.

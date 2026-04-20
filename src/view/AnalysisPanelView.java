@@ -5,6 +5,10 @@ import java.awt.*;
 import java.util.List;
 import model.Transaction;
 
+/**
+ * A JPanel view representing the Analysis tab.
+ * Contains user input filters for generating charts and a display container for the chart itself.
+ */
 public class AnalysisPanelView extends JPanel {
     private JTextField startDateField;
     private JTextField endDateField;
@@ -26,7 +30,7 @@ public class AnalysisPanelView extends JPanel {
         endDateField = new JTextField(12);
         controlsPanel.add(endDateField);
         
-        chartTypeComboBox = new JComboBox<>(new String[]{"Pie Chart", "Bar Chart"});
+        chartTypeComboBox = new JComboBox<>(new String[]{"Pie Chart", "Bar Chart", "Line Chart"});
         controlsPanel.add(chartTypeComboBox);
         
         generateButton = new JButton("Generate Chart");
@@ -40,22 +44,39 @@ public class AnalysisPanelView extends JPanel {
         add(chartContainer, BorderLayout.CENTER);
     }
 
+    /**
+     * @return the entered start date string (expected dd-MM-yyyy HH:mm format)
+     */
     public String getStartDate() {
         return startDateField.getText().trim();
     }
 
+    /**
+     * @return the entered end date string
+     */
     public String getEndDate() {
         return endDateField.getText().trim();
     }
 
+    /**
+     * @return the name of the selected chart type ("Pie Chart", "Bar Chart", or "Line Chart")
+     */
     public String getSelectedChartType() {
         return (String) chartTypeComboBox.getSelectedItem();
     }
 
+    /**
+     * @return the JButton instance for triggering chart generation
+     */
     public JButton getGenerateButton() {
         return generateButton;
     }
 
+    /**
+     * Replaces the currently displayed chart panel with the newly provided one.
+     * 
+     * @param chartPanel The generated XChartPanel to display
+     */
     public void displayChart(JPanel chartPanel) {
         chartContainer.removeAll();
         chartContainer.add(chartPanel, BorderLayout.CENTER);
@@ -63,6 +84,11 @@ public class AnalysisPanelView extends JPanel {
         chartContainer.repaint();
     }
     
+    /**
+     * Displays an error message dialog.
+     * 
+     * @param message The error message to display
+     */
     public void displayErrorMessage(String message) {
         JOptionPane.showMessageDialog(this, message, "Error", JOptionPane.ERROR_MESSAGE);
     }

@@ -103,8 +103,10 @@ public class ExpenseTrackerController {
             view.ChartStrategy strategy;
             if ("Pie Chart".equals(chartType)) {
                 strategy = new view.PieChartStrategy();
-            } else {
+            } else if ("Bar Chart".equals(chartType)) {
                 strategy = new view.BarChartStrategy();
+            } else {
+                strategy = new view.LineChartStrategy();
             }
             
             javax.swing.JPanel chartPanel = strategy.buildChart(filteredTransactions, "Expenses");

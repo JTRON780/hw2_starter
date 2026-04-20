@@ -11,6 +11,10 @@ import org.knowm.xchart.XChartPanel;
 
 import model.Transaction;
 
+/**
+ * Strategy implementation for building a pie chart visualization.
+ * Groups transactions by category and calculates aggregate amounts.
+ */
 public class PieChartStrategy implements ChartStrategy {
     @Override
     public JPanel buildChart(List<Transaction> transactions, String title) {
