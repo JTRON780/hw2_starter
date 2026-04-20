@@ -3,12 +3,12 @@
 import static org.junit.Assert.assertEquals;
 
 import javax.swing.table.DefaultTableModel;
-
 import org.junit.Before;
 import org.junit.Test;
 
 import controller.ExpenseTrackerController;
 import model.ExpenseTrackerModel;
+import model.InputValidation;
 import model.Transaction;
 import view.DataPanelView;
 import view.ExpenseTrackerView;
@@ -87,5 +87,53 @@ public class ExpenseTrackerTest {
 	  assertEquals(newAmount, view.getTransactionsTableValueAt(0, 1));
 	  assertEquals(newCategory, view.getTransactionsTableValueAt(0, 2));
 	  assertEquals(newAmount, view.getTransactionsTableValueAt(1, 3));
+  }
+
+  @Test(expected = IllegalArgumentException.class)
+  public void testAddTransactionInvalidAmount() {
+	  // Pre-conditions
+	  assertEquals(0, model.getTransactions().size());
+	  
+	  // Call unit under test (should throw exception)
+	  Transaction t = new Transaction(-50.0, "food");
+  }
+
+  @Test(expected = IllegalArgumentException.class)
+  public void testAddTransactionInvalidCategory() {
+	  // Pre-conditions
+	  assertEquals(0, model.getTransactions().size());
+	  
+	  // Call unit under test (should throw exception)
+	  Transaction t = new Transaction(50.0, "InvalidCategory");
+  }
+
+  @Test
+  public void testRemoveTransactionInvalidIndex() {
+	  // Pre-conditions
+	  assertEquals(0, model.getTransactions().size());
+	  
+	  // Call unit under test
+	  boolean removed = model.removeTransaction(0); // Removing from empty list
+	  
+	  // Post-conditions
+	  assertEquals(false, removed);
+	  assertEquals(0, model.getTransactions().size());
+  }
+
+  @Test
+  public void testInputValidationEdgeCases() {
+      // Pre-conditions
+      // (no explicit pre-conditions needed for statics)
+      
+      // Call unit under test
+      boolean invalidAmountZero = InputValidation.isValidAmount(0.0);
+      boolean invalidAmountHigh = InputValidation.isValidAmount(1001.0);
+      boolean validCategoryCaps = InputValidation.isValidCategory("FOOD");
+      
+      
+      // Post-conditions
+      assertEquals(false, invalidAmountZero);
+      assertEquals(false, invalidAmountHigh);
+      assertEquals(true, validCategoryCaps);
   }
 }
