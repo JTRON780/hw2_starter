@@ -136,4 +136,41 @@ public class ExpenseTrackerTest {
       assertEquals(false, invalidAmountHigh);
       assertEquals(true, validCategoryCaps);
   }
+
+  @Test
+  public void testRemoveTransactionNegativeIndex() {
+      // Pre-conditions
+      assertEquals(0, model.getTransactions().size());
+      
+      // Call unit under test
+      boolean removed = model.removeTransaction(-1);
+      
+      // Post-conditions
+      assertEquals(false, removed);
+  }
+
+  @Test
+  public void testTransactionGetters() {
+      // Call unit under test
+      Transaction t = new Transaction(50.0, "travel");
+      
+      // Post-conditions
+      assertEquals(50.0, t.getAmount(), 0.001);
+      assertEquals("travel", t.getCategory());
+      // we can't assert exact timestamp safely due to ms diff, but we can assert it's not null
+      assertEquals(true, t.getTimestamp() != null && !t.getTimestamp().isEmpty());
+  }
+
+  @Test
+  public void testTransactionPackageConstructor() throws Exception {
+      // Use reflection to access the package-private constructor
+      java.lang.reflect.Constructor<Transaction> constructor = Transaction.class.getDeclaredConstructor(double.class, String.class, String.class);
+      constructor.setAccessible(true);
+      Transaction t = constructor.newInstance(50.0, "travel", "15-05-2026 12:00");
+      
+      // Post-conditions
+      assertEquals(50.0, t.getAmount(), 0.001);
+      assertEquals("travel", t.getCategory());
+      assertEquals("15-05-2026 12:00", t.getTimestamp());
+  }
 }
