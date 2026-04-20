@@ -65,6 +65,9 @@ The Expense Tracker application applies the MVC architecture pattern as follows:
   Enter a valid amount and category, then click **Add Transaction**.
   The valid transaction appears in the list, and the total cost updates automatically.
 
+* **Input Validation:**
+  Validates adding and exporting functionalities. The transaction amount must be greater than 0 and less than or equal to 1000. The category must be one of: food, travel, bills, entertainment, or other. The exported filename must be valid and end with `.csv`.
+
 * **Delete Transaction:**
   Select a valid transaction from the list.
   In the 'Edit' menu, select the 'Delete' menu item.
