@@ -22,6 +22,7 @@ public class ExpenseTrackerView extends JFrame {
   
   private JTabbedPane tabbedPanel;
   private DataPanelView dataPanelView;
+  private AnalysisPanelView analysisPanelView;
   
   private JMenuItem fileOpenFileMenuItem;
   private JMenuItem fileSaveAsMenuItem;
@@ -33,6 +34,10 @@ public class ExpenseTrackerView extends JFrame {
   
   public DataPanelView getDataPanelView() {
 	  return this.dataPanelView;
+  }
+  
+  public AnalysisPanelView getAnalysisPanelView() {
+      return this.analysisPanelView;
   }
   
   public JMenuItem getOpenFileMenuItem() {
@@ -69,9 +74,9 @@ public class ExpenseTrackerView extends JFrame {
     // Layout components
     tabbedPanel = new JTabbedPane();
     dataPanelView = new DataPanelView();
-    JPanel analysisPanel = new JPanel();
+    analysisPanelView = new AnalysisPanelView();
     tabbedPanel.add("Data", dataPanelView);
-    tabbedPanel.add("Analyis", analysisPanel);
+    tabbedPanel.add("Analysis", analysisPanelView);
     add(tabbedPanel);
   
     // Set frame properties
